@@ -59,20 +59,20 @@ export const constantRoutes = [
     path: '/teacher',
     component: Layout,
     redirect: '/teacher/table',
-    name: '教师管理',
-    meta: { title: '教师管理', icon: 'el-icon-s-help' },
+    name: '讲师管理',
+    meta: { title: '讲师管理', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'table',
-        name: '教师列表',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        name: '讲师列表',
+        component: () => import('@/views/edu/teacher/teacherList'),
+        meta: { title: '讲师列表', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'save',
+        name: '添加讲师',
+        component: () => import('@/views/edu/teacher/saveTeacher'),
+        meta: { title: '添加讲师', icon: 'tree' }
       }
     ]
   },
