@@ -1,12 +1,41 @@
 <template>
   <div>
+    <el-form :inline="true"  class="el-form--inline">
+      <el-form-item label="姓名：">
+        <el-input v-model="teacherQuery.name" placeholder="姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="讲师头衔">
+        <el-select v-model="teacherQuery.level" clearable placeholder="讲师头衔">
+          <el-option :value="1" label="高级讲师"></el-option>
+          <el-option :value="2" label="首席讲师"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="开始时间">
+        <el-date-picker
+          v-model="teacherQuery.begin"
+          type="datetime"
+          placeholder="选择开始时间"
+          value-format="yyyy-MM-dd HH:mm;:ss"
+          default-time="00:00:00">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="结束时间">
+        <el-date-picker
+          v-model="teacherQuery.begin"
+          type="datetime"
+          placeholder="选择开始时间"
+          value-format="yyyy-MM-dd HH:mm;:ss"
+          default-time="00:00:00">
+        </el-date-picker>
+      </el-form-item>
+    </el-form>
     <el-table
       :data="list"
       stripe
       style="width: 100%">
-      <!--    <el-table-column slot-scope="scope">-->
-      <!--      {{ (page - 1) * limit + scope.$index + 1 }}-->
-      <!--    </el-table-column>-->
+      <!--      <el-table-column slot-scope="scope">-->
+      <!--        {{ (page - 1) * limit + scope.$index + 1 }}-->
+      <!--      </el-table-column>-->
 
       <el-table-column
         prop="name"
@@ -55,7 +84,7 @@ export default {
   data() {
     return {
       page: 1,
-      limit: 1,
+      limit: 5,
       total: 0,
       teacherQuery: {},
       list: null
