@@ -10,5 +10,18 @@ export default {
       /* data 表示將数据转换为Json对象 */
       data: teacherQuery
     })
+  },
+  delTeacherByid(id) {
+    return request({
+      url: `/eduservice/teacher/${id}`,
+      method: 'delete'
+    })
+  },
+  saveTeacher(teacher) {
+    return request({
+      url: `/eduservice/teacher/addTeacher`,
+      method: 'post',
+      data: teacher
+    })
   }
 }

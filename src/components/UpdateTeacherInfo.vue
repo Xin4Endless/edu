@@ -1,6 +1,5 @@
 <template>
-  <div class="app-container">
-    添加讲师
+  <el-dialog title="修改讲师信息" :visible.sync="dialogFormTeacher.value">
     <el-form label-position="right" label-width="180px">
       <el-form-item label="讲师姓名：">
         <el-input v-model="teacher.name"></el-input>
@@ -20,34 +19,28 @@
       <el-form-item label="讲师简介：">
         <el-input v-model="teacher.intro" :rows="10" type="textarea"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-button :disabled="saveBtnDisabled" type="primary" @click="saveOrUpdateTeacher">保存</el-button>
-      </el-form-item>
+<!--      <el-form-item>-->
+<!--        <el-button :disabled="saveBtnDisabled" type="primary" @click="saveOrUpdateTeacher">保存</el-button>-->
+<!--      </el-form-item>-->
     </el-form>
-  </div>
+  </el-dialog>
 </template>
-<script>
-import teacherApi from '@/api/teacher/teacherApi'
 
+<script>
 export default {
+  name: 'UpdateTeacherInfo',
+  props: {
+    dialogFormTeacher: Object
+  },
   data() {
     return {
       teacher: {}
     }
-  },
-  created() {
-  },
-  methods: {
-    saveOrUpdateTeacher(teacher) {
-      teacherApi.saveTeacher(this.teacher).then(response => {
-        this.$message.success('添加讲师成功。')
-        this.$router.push(
-          `{path: '/teacher/table'}`
-        )
-      }).catch(error => {
-        this.$message.error('添加失败')
-      })
-    }
-  }
+  }, created() {
+  }, methods: {}
 }
 </script>
+
+<style scoped>
+
+</style>
