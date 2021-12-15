@@ -1,16 +1,13 @@
 <template>
   <div>
-    <el-dialog title="修改讲师信息" :visible.sync="dialogFormTeacher">
-      <UpdateTeacherInfo></UpdateTeacherInfo>
-    </el-dialog>
     <el-form :inline="true" class="el-form-inline" size="medium">
       <el-form-item label="姓名：">
-        <el-input v-model="teacherQuery.name" placeholder="姓名"></el-input>
+        <el-input v-model="teacherQuery.name" placeholder="姓名" />
       </el-form-item>
       <el-form-item label="讲师头衔：">
         <el-select v-model="teacherQuery.level" clearable placeholder="讲师头衔">
-          <el-option :value="1" label="高级讲师"></el-option>
-          <el-option :value="2" label="首席讲师"></el-option>
+          <el-option :value="1" label="高级讲师" />
+          <el-option :value="2" label="首席讲师" />
         </el-select>
       </el-form-item>
       <el-form-item label="开始时间：">
@@ -19,8 +16,8 @@
           type="datetime"
           placeholder="选择开始时间"
           value-format="yyyy-MM-dd HH:mm;:ss"
-          default-time="00:00:00">
-        </el-date-picker>
+          default-time="00:00:00"
+        />
       </el-form-item>
       <el-form-item label="结束时间：">
         <el-date-picker
@@ -28,29 +25,30 @@
           type="datetime"
           placeholder="选择开始时间"
           value-format="yyyy-MM-dd HH:mm;:ss"
-          default-time="00:00:00">
-        </el-date-picker>
+          default-time="00:00:00"
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="getTeacherList()">查询</el-button>
         <el-button type="default" @click="resetData()">清空</el-button>
       </el-form-item>
-
     </el-form>
     <el-table
       :data="list"
       stripe
-      style="width: 100%">
+      style="width: 100%"
+    >
       <el-table-column
         prop="name"
         label="姓名"
         header-align="center"
-        align="center">
-      </el-table-column>
+        align="center"
+      />
       <el-table-column
         label="头衔"
         header-align="center"
-        align="center">
+        align="center"
+      >
         <template slot-scope="scope">
           {{ scope.row.level === 1 ? '高级讲师' : '首席讲师' }}
         </template>
@@ -59,24 +57,27 @@
         prop="intro"
         label="资历"
         header-align="center"
-        align="center">
-      </el-table-column>
+        align="center"
+      />
 
       <el-table-column
         prop="gmtCreate"
         label="添加时间"
         header-align="center"
-        align="center">
-      </el-table-column>
+        align="center"
+      />
 
       <el-table-column
         fixed="right"
         header-align="center"
         align="center"
-        label="操作">
+        label="操作"
+      >
         <template slot-scope="scope">
-          <el-button @click="updateTeacher" size="small">修改</el-button>
-          <el-button type="danger" @click="delTeacher(scope.row)" size="small">删除</el-button>
+          <router-link :to="'/teacher/edit/'+scope.row.id">
+            <el-button size="small">修改</el-button>
+          </router-link>
+          <el-button type="danger" size="small" @click="delTeacher(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -88,33 +89,25 @@
       :total="total"
       style="text-align: right"
       layout="total, prev, pager, next"
-      @current-change="getTeacherList">
-    </el-pagination>
+      @current-change="getTeacherList"
+    />
   </div>
 </template>
 
 <script>
 import teacherApi from '@/api/teacher/teacherApi'
-import UpdateTeacherInfo from '@/components/UpdateTeacherInfo'
 
 export default {
-  components: {
-    UpdateTeacherInfo: UpdateTeacherInfo
-  },
   data() {
     return {
       page: 1,
       limit: 5,
       total: 0,
       teacherQuery: {},
-      dialogFormTeacher: {
-        'value': false
-      },
       list: null
     }
   },
   created() {
-    this.dialogFormTeacher.value = false
     this.getTeacherList()
   },
   methods: {
@@ -150,9 +143,6 @@ export default {
       }).catch(() => {
         this.$message.info('已取消删除')
       })
-    },
-    updateTeacher() {
-      this.dialogFormTeacher.value = true
     },
     resetData() {
       this.teacherQuery = {}

@@ -11,6 +11,12 @@ export default {
       data: teacherQuery
     })
   },
+  getTeacherInfoByid(id) {
+    return request({
+      url: `/eduservice/teacher/getTeacher/${id}`,
+      method: 'get'
+    })
+  },
   delTeacherByid(id) {
     return request({
       url: `/eduservice/teacher/${id}`,
@@ -20,6 +26,13 @@ export default {
   saveTeacher(teacher) {
     return request({
       url: `/eduservice/teacher/addTeacher`,
+      method: 'post',
+      data: teacher
+    })
+  },
+  updateTeacher(teacher) {
+    return request({
+      url: `/eduservice/teacher/updateTeacher`,
       method: 'post',
       data: teacher
     })

@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import { title } from '@/settings'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -22,7 +23,7 @@ import Layout from '@/layout'
     icon: 'svg-name'/'el-icon-x' the icon show in the sidebar
     breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
     activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
-  }
+   }
  */
 
 /**
@@ -59,20 +60,27 @@ export const constantRoutes = [
     path: '/teacher',
     component: Layout,
     redirect: '/teacher/table',
-    name: '讲师管理',
+    name: 'teacherTable',
     meta: { title: '讲师管理', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'table',
-        name: '讲师列表',
+        name: 'teacherList',
         component: () => import('@/views/edu/teacher/teacherList'),
         meta: { title: '讲师列表', icon: 'table' }
       },
       {
         path: 'save',
-        name: '添加讲师',
+        name: 'saveTeacher',
         component: () => import('@/views/edu/teacher/saveTeacher'),
         meta: { title: '添加讲师', icon: 'tree' }
+      },
+      {
+        path: 'edit/:id',
+        name: 'updateTeacher',
+        component: () => import('@/views/edu/teacher/saveTeacher'),
+        meta: { title: '编辑讲师', noCache: true },
+        hidden: true
       }
     ]
   },
