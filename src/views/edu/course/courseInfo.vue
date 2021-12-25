@@ -20,6 +20,24 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="课程分类">
+        <el-select v-model="courseInfo.subjectParentId" placeholder="一级分类" @change="getChildSubjcet">
+          <el-option
+            v-for="subject in subjectList"
+            :key="subject.id"
+            :label="subject.title"
+            :value="subject.id"
+          />
+        </el-select>
+        <el-select v-model="courseInfo.subjectId" placeholder="二级分类">
+          <el-option
+            v-for="child in subjectListChild"
+            :key="child.id"
+            :label="child.title"
+            :value="child.id"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="总课时">
         <el-input-number
           v-model="courseInfo.lessonNum"
@@ -54,21 +72,66 @@
 <script>
 import courseApi from '@/api/course/courseApi'
 import teacherApi from '@/api/teacher/teacherApi'
+import subjectApi from '@/api/subject/subjectApi'
 
 export default {
   name: 'CourseInfo',
   data() {
     return {
       saveBtnDisabled: false,
-      courseInfo: {},
-      teacherList: []
+      courseInfo: { subjectId: '' },
+      teacherList: [],
+      subjectList: [],
+      subjectListChild: []
     }
   },
   created() {
     this.getTeacher()
+    if (this.$route.params && this.$route.params.id) {
+      const id = this.$route.params.id
+      this.getCourseInfo(id)
+    } else {
+      this.getSubject()
+    }
   },
   methods: {
+    getChildSubjcet(value) {
+      for (const subjectListElement of this.subjectList) {
+        if (subjectListElement.id === value) {
+          this.subjectListChild = subjectListElement.children
+          this.courseInfo.subjectId = null
+        }
+      }
+    },
+    getSubject(subjectParentId) {
+      subjectApi.getSubjectListTree()
+        .then(response => {
+          this.subjectList = response.data.list
+          // 添加判断如果父类的课程ID不为空的时候，需要手动设置下级数据
+          if (subjectParentId != null) {
+            for (const subjectListElement of this.subjectList) {
+              if (subjectListElement.id === subjectParentId) {
+                this.subjectListChild = subjectListElement.children
+              }
+            }
+          }
+        }).catch()
+    },
+    getCourseInfo(id) {
+      courseApi.getCourseInfo(id)
+        .then(response => {
+          this.courseInfo = response.data.info
+          this.getSubject(this.courseInfo.subjectParentId)
+        }).catch()
+    },
     saveOrUpdate() {
+      if (this.courseInfo.id) {
+        this.updateCourse()
+      } else {
+        this.addCourse()
+      }
+    },
+    addCourse() {
       courseApi.addCourse(this.courseInfo).then(
         response => {
           this.$message.success('保存成功')
@@ -79,6 +142,13 @@ export default {
           this.$message.error('保存失败')
         }
       )
+    },
+    updateCourse() {
+      courseApi.updateCourseInfo(this.courseInfo)
+        .then(response => {
+          this.$message.success('修改成功')
+          this.$router.push({ path: '/course/courseChapter/' + this.courseInfo.id })
+        }).catch()
     },
     getTeacher() {
       teacherApi.getAllTeacher().then(response => {

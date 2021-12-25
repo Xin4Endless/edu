@@ -22,17 +22,22 @@ export default {
   data() {
     return {
       saveBtnDisabled: false,
+      courseId: 1,
       courseInfo: {}
     }
   },
   created() {
+    if (this.$route.params && this.$route.params.id) {
+      this.courseId = this.$route.params.id
+      // this.getTeacherByid(id)
+    }
   },
   methods: {
     previous() {
-      this.$router.push({ path: '/course/courseInfo/1' })
+      this.$router.push({ path: '/course/courseInfo/' + this.courseId })
     },
     next() {
-      this.$router.push({ path: '/course/coursePublish/1' })
+      this.$router.push({ path: '/course/coursePublish/' + this.courseId })
     }
   }
 }
