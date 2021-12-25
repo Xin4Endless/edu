@@ -1,6 +1,12 @@
 import request from '@/utils/request'
 
 export default {
+  getAllTeacher() {
+    return request({
+      url: `/eduservice/teacher/findAll`,
+      method: 'get'
+    })
+  },
   /* 讲师列表获取（分页带条件）*/
   getTeacherListPage(current, limit, teacherQuery) {
     return request({

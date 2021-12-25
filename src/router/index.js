@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+// eslint-disable-next-line no-unused-vars
 import { title } from '@/settings'
 
 /**
@@ -80,6 +81,69 @@ export const constantRoutes = [
         name: 'updateTeacher',
         component: () => import('@/views/edu/teacher/saveTeacher'),
         meta: { title: '编辑讲师', noCache: true },
+        hidden: true
+      }
+    ]
+  },
+  {
+    path: '/subject',
+    component: Layout,
+    redirect: '/subject/list',
+    name: '课程分类管理',
+    meta: { title: '课程分类管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'list',
+        name: '课程分类列表',
+        component: () => import('@/views/edu/subject/subjectList'),
+        meta: { title: '课程分类列表', icon: 'table' }
+      },
+      {
+        path: 'save',
+        name: '添加课程分类',
+        component: () => import('@/views/edu/subject/saveSubject'),
+        meta: { title: '添加课程分类', icon: 'tree' }
+      }
+    ]
+  },
+  {
+    path: '/course',
+    component: Layout,
+    redirect: '/course/courseList',
+    name: 'courseTable',
+    meta: { title: '课程管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'courseList',
+        name: 'courseList',
+        component: () => import('@/views/edu/course/courseList'),
+        meta: { title: '课程列表', icon: 'table' }
+      },
+      {
+        path: 'courseInfo',
+        name: 'courseInfo',
+        component: () => import('@/views/edu/course/courseInfo'),
+        meta: { title: '添加课程', icon: 'table' }
+      },
+      {
+        path: 'courseInfo/:id',
+        name: 'courseInfoEdit',
+        component: () => import('@/views/edu/course/courseInfo'),
+        meta: { title: '编辑课程基本信息', noCache: true },
+        hidden: true
+      },
+      {
+        path: 'courseChapter/:id',
+        name: 'courseChapterEdit',
+        component: () => import('@/views/edu/course/courseChapter'),
+        meta: { title: '编辑课程大纲', noCache: true },
+        hidden: true
+      },
+      {
+        path: 'coursePublish/:id',
+        name: 'coursePublishEdit',
+        component: () => import('@/views/edu/course/coursePublish'),
+        meta: { title: '发布课程', noCache: true },
         hidden: true
       }
     ]
