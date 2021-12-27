@@ -122,13 +122,19 @@ export default {
         .then(response => {
           this.courseInfo = response.data.info
           this.getSubject(this.courseInfo.subjectParentId)
+          sessionStorage.setItem('courseInfo', JSON.stringify(this.courseInfo))
         }).catch()
     },
-    saveOrUpdate() {
-      if (this.courseInfo.id) {
-        this.updateCourse()
+    saveOrUpdate: function() {
+      if (JSON.stringify(this.courseInfo) !== sessionStorage.getItem('courseInfo')) {
+        if (this.courseInfo.id) {
+          this.updateCourse()
+        } else {
+          this.addCourse()
+        }
       } else {
-        this.addCourse()
+        this.$message.warning('数据未发生变化')
+        this.$router.push({ path: '/course/courseChapter/' + this.courseInfo.id })
       }
     },
     addCourse() {
